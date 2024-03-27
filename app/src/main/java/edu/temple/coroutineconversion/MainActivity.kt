@@ -19,10 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var cakeImageView: ImageView
 
-    val handler = Handler(Looper.getMainLooper(), Handler.Callback {
-        cakeImageView.alpha = it.what / 100f
-        true
-    })
     val scope = CoroutineScope(Job() + Dispatchers.Main)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,19 +29,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.revealButton).setOnClickListener{
             scope.launch{
                 repeat(100) {
-                    withContext(Dispatchers.Main){
-                        cakeImageView.alpha = it / 100f
-                    }
-                    //handler.sendEmptyMessage(it)
+                    cakeImageView.alpha = it / 100f
                     delay(40)
                 }
             }
-//            Thread{
-//                repeat(100) {
-//                    handler.sendEmptyMessage(it)
-//                    Thread.sleep(40)
-//                }
-//            }.start()
         }
     }
 }
